@@ -22,7 +22,10 @@ class TxFetcher:
     @classmethod
     def get_url(cls, testnet=False):
         if testnet:
-            return 'https://blockstream.info/testnet/api'
+            # Use mempool.space signet API for testnet-like operations in Chapter 7
+            # This allows us to work with signet UTXOs when testnet3 faucets are
+            # not easily available.
+            return 'https://mempool.space/signet/api'
         else:
             return 'https://blockstream.info/api'
 
