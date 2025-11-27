@@ -35,7 +35,7 @@ def build_tx() -> Tx:
     # その出力の金額 (satoshi)。例: 0.43 BTC = 43000000 satoshi
     INPUT_AMOUNT = int(0.00010000* 100_000_000)
 
-    # 問題文で指定されている送金先アドレス (60%)
+    # 問題文で指定されている送金先アドレス 
     TARGET_ADDRESS = "mwJn1YPMq7y5F8J3LkC5Hxg9PHyZ5K4cFv"
     # あなたのチェンジアドレス (自分の signet アドレス)
     CHANGE_ADDRESS = "mpa7S8q48je9FKzdv31fmn8dRv2VQF4wu5"
