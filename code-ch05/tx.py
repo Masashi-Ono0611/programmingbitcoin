@@ -110,13 +110,15 @@ class Tx:
         '''
         # s.read(n) will return n bytes
         # version is an integer in 4 bytes, little-endian
-        # num_inputs is a varint, use read_varint(s)
-        # parse num_inputs number of TxIns
-        # num_outputs is a varint, use read_varint(s)
-        # parse num_outputs number of TxOuts
-        # locktime is an integer in 4 bytes, little-endian
-        # return an instance of the class (see __init__ for args)
-        raise NotImplementedError
+        version_bytes = s.read(4)
+        version = little_endian_to_int(version_bytes)
+
+        # For Exercise 1, we only need version parsed correctly.
+        # We'll fill in tx_ins, tx_outs, and locktime in later exercises.
+        tx_ins = []
+        tx_outs = []
+        locktime = 0
+        return cls(version, tx_ins, tx_outs, locktime, testnet=testnet)
 
     # tag::source6[]
     def serialize(self):
