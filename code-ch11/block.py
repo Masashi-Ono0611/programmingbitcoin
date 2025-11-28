@@ -116,10 +116,12 @@ class Block:
         '''Gets the merkle root of the tx_hashes and checks that it's
         the same as the merkle root of this block.
         '''
-        # reverse each item in self.tx_hashes
-        # compute the Merkle Root and reverse
+        # reverse each item in self.tx_hashes (they are stored little-endian)
+        hashes = [h[::-1] for h in self.tx_hashes]
+        # compute the Merkle Root and reverse back to little-endian
+        root = merkle_root(hashes)[::-1]
         # return whether self.merkle_root is the same
-        raise NotImplementedError
+        return root == self.merkle_root
 
 
 class BlockTest(TestCase):
