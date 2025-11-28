@@ -69,19 +69,19 @@ class Block:
         # BIP9 is signalled if the top 3 bits are 001
         # remember version is 32 bytes so right shift 29 (>> 29) and see if
         # that is 001
-        raise NotImplementedError
+        return (self.version >> 29) == 0b001
 
     def bip91(self):
         '''Returns whether this block is signaling readiness for BIP91'''
         # BIP91 is signalled if the 5th bit from the right is 1
         # shift 4 bits to the right and see if the last bit is 1
-        raise NotImplementedError
+        return (self.version >> 4) & 1 == 1
 
     def bip141(self):
         '''Returns whether this block is signaling readiness for BIP141'''
         # BIP91 is signalled if the 2nd bit from the right is 1
         # shift 1 bit to the right and see if the last bit is 1
-        raise NotImplementedError
+        return (self.version >> 1) & 1 == 1
 
     def target(self):
         '''Returns the proof-of-work target based on the bits'''
@@ -91,14 +91,18 @@ class Block:
         '''Returns the block difficulty based on the bits'''
         # note difficulty is (target of lowest difficulty) / (self's target)
         # lowest difficulty has bits that equal 0xffff001d
-        raise NotImplementedError
+        lowest_bits = bytes.fromhex('ffff001d')
+        max_target = bits_to_target(lowest_bits)
+        return max_target / self.target()
 
     def check_pow(self):
         '''Returns whether this block satisfies proof of work'''
         # get the hash256 of the serialization of this block
         # interpret this hash as a little-endian number
         # return whether this integer is less than the target
-        raise NotImplementedError
+        h256 = hash256(self.serialize())
+        proof = little_endian_to_int(h256)
+        return proof < self.target()
 
 
 class BlockTest(TestCase):
